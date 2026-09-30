@@ -7,7 +7,7 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.ts'],
       // Process start-up and the real Anthropic/GitHub/Mongo wiring are exercised in CI or by hand.
-      exclude: ['src/index.ts'],
+      exclude: ['src/index.ts', 'src/demo.ts'],
       reporter: ['text-summary', 'text'],
       // Floors, a little under today's numbers: they catch regressions, not noise.
       // The MongoDB store is only covered when MONGO_TEST_URI is set (CI), so this

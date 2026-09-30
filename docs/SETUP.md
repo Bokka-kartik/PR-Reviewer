@@ -1,5 +1,7 @@
 # Setup
 
+> **Just want to look around?** Run `npm run install:all` then `npm run demo` and `npm run dev:frontend`. Demo mode needs none of the accounts below (see the README).
+
 You need: Docker (or Node 22.12+ and MongoDB), a GitHub account, and an Anthropic API key. Reviews cost API money
 in proportion to diff size, so try it on a small repository first.
 

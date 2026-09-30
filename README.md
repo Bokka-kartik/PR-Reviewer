@@ -8,6 +8,30 @@ the exact lines. A dashboard shows every review, its comments, cost in tokens, a
 
 Setup for a real GitHub App: [SETUP.md](docs/SETUP.md).
 
+## See it in 2 minutes (no accounts needed)
+
+Demo mode runs the real backend with fake reviews, so you can explore the dashboard without a GitHub App, an Anthropic
+key or MongoDB:
+
+```bash
+npm run install:all
+npm run demo            # terminal 1: backend with 40 fake reviews on :3001
+npm run dev:frontend    # terminal 2: dashboard on http://localhost:5173
+# sign in with the token printed by the demo: demo-token-1234567890
+```
+
+## Screenshots
+
+Taken from demo mode (fake data).
+
+|                              Overview (light)                              |                             Overview (dark)                              |
+| :------------------------------------------------------------------------: | :----------------------------------------------------------------------: |
+| ![Overview in light mode](docs/images/overview-light.png "Overview, light") | ![Overview in dark mode](docs/images/overview-dark.png "Overview, dark") |
+
+|                     Reviews list                      |                          One review                           |
+| :---------------------------------------------------: | :-----------------------------------------------------------: |
+| ![Reviews list](docs/images/reviews.png "All reviews") | ![Review detail](docs/images/review-detail.png "Review detail") |
+
 ## How a review works
 
 ```mermaid
