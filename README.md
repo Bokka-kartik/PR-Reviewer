@@ -111,22 +111,22 @@ still records the run.
 
 ## Tests
 
-`cd server && npm test` (85 tests) covers: diff parsing (renames, new/deleted/binary files, multiple hunks, odd
+`cd backend && npm test` (85 tests) covers: diff parsing (renames, new/deleted/binary files, multiple hunks, odd
 whitespace), file filtering, chunking, comment validation and dedupe, repo config parsing, the whole review flow with a
 fake GitHub and fake model (skips, retries, 422 fallback, partial failures, idempotency), webhook signature
 verification and the HTTP API, the Anthropic request/response handling (through the SDK with a fake `fetch`), the job
 queue, and statistics. The MongoDB store tests run when `MONGO_TEST_URI` is set (CI does this).
-`cd web && npm test` covers the formatting and chart-scale helpers.
+`cd frontend && npm test` covers the formatting and chart-scale helpers.
 
 ## Project layout
 
 ```
-server/                 Express API, webhook handler, review pipeline, MongoDB store
-web/                    React dashboard (Overview, Reviews, Review detail)
+backend/                Express API, webhook handler, review pipeline, MongoDB store
+frontend/               React dashboard (Overview, Reviews, Review detail)
 docs/SETUP.md           Register the GitHub App and run everything
-docker-compose.yml      mongo + server + web
+docker-compose.yml      mongo + backend + frontend
 .github/workflows/      CI: tests, builds, Docker image builds
-package.json            Shortcuts only: npm run install:all | test | build | dev:server | dev:web | clean
+package.json            Shortcuts only: npm run install:all | test | build | dev:backend | dev:frontend | clean
 ```
 
 Run locally: see [docs/SETUP.md](docs/SETUP.md).

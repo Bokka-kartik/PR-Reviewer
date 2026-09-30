@@ -1,4 +1,4 @@
-# Dependencies (matches at any depth: server/, web/, ...)
+# Dependencies (matches at any depth: backend/, frontend/, ...)
 node_modules/
 
 # Build output

@@ -1,4 +1,4 @@
-﻿# Setup
+# Setup
 
 You need: Docker (or Node 22.12+ and MongoDB), a GitHub account, and an Anthropic API key. Reviews cost API money
 in proportion to diff size, so try it on a small repository first.
@@ -48,7 +48,7 @@ GitHub must be able to POST to your server. Use a tunnel and paste its URL + `/w
   and use the smee URL as the Webhook URL.
 - or **cloudflared** / **ngrok**: `ngrok http 3001`, then use `https://<id>.ngrok-free.app/webhook`.
 
-For a real deployment, deploy the `server` container anywhere with a public HTTPS URL and use that instead.
+For a real deployment, deploy the `backend` container anywhere with a public HTTPS URL and use that instead.
 
 ## 3. Configure and run
 
@@ -64,9 +64,9 @@ Without Docker:
 
 ```bash
 # terminal 1 (needs a MongoDB on localhost:27017)
-cd server && npm install && npm run dev
+cd backend && npm install && npm run dev
 # terminal 2
-cd web && npm install && npm run dev      # http://localhost:5173
+cd frontend && npm install && npm run dev      # http://localhost:5173
 ```
 
 `npm run dev` loads the same `.env` file from the project root, and uses `MONGO_URI` from it, so set it to
@@ -84,7 +84,7 @@ cd web && npm install && npm run dev      # http://localhost:5173
 | Symptom | Check |
 |---|---|
 | GitHub shows a red X on webhook deliveries (App settings > Advanced > Recent Deliveries) | Response code: `401` = secret in `.env` differs from the App's; `404/timeout` = tunnel URL or `/webhook` path wrong |
-| Delivery is `202` but no review | Is the App installed on that repo? Is it a draft, a bot PR, or labelled `no-ai-review`? Look at the dashboard row's status and reason, and `docker compose logs server` |
+| Delivery is `202` but no review | Is the App installed on that repo? Is it a draft, a bot PR, or labelled `no-ai-review`? Look at the dashboard row's status and reason, and `docker compose logs backend` |
 | Dashboard row says failed: "every model call failed" | Check `ANTHROPIC_API_KEY`, the model name, and your API quota in the logs |
 | Server exits on start with "Invalid configuration" | The message lists every missing or invalid variable |
 | Reviews arrive as one plain comment, not inline | GitHub rejected a line position (422). The app falls back to plain text; this is expected occasionally |

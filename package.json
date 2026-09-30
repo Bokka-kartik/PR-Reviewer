@@ -1,14 +1,14 @@
 {
   "name": "pr-reviewer",
   "private": true,
-  "description": "Convenience scripts for the server/ and web/ packages. No dependencies live here.",
+  "description": "Convenience scripts for the backend/ and frontend/ packages. No dependencies live here.",
   "scripts": {
-    "install:all": "npm --prefix server install && npm --prefix web install",
-    "dev:server": "npm --prefix server run dev",
-    "dev:web": "npm --prefix web run dev",
-    "test": "npm --prefix server test && npm --prefix web test",
-    "typecheck": "npm --prefix server run typecheck",
-    "build": "npm --prefix server run build && npm --prefix web run build",
-    "clean": "node -e \"for (const d of ['server/node_modules','server/dist','web/node_modules','web/dist']) require('fs').rmSync(d, { recursive: true, force: true })\""
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "test": "npm --prefix backend test && npm --prefix frontend test",
+    "typecheck": "npm --prefix backend run typecheck",
+    "build": "npm --prefix backend run build && npm --prefix frontend run build",
+    "clean": "node -e \"for (const d of ['backend/node_modules','backend/dist','frontend/node_modules','frontend/dist']) require('fs').rmSync(d, { recursive: true, force: true })\""
   }
 }

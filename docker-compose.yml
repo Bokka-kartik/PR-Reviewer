@@ -9,8 +9,8 @@ services:
       timeout: 5s
       retries: 20
 
-  server:
-    build: ./server
+  backend:
+    build: ./backend
     env_file: .env
     environment:
       # Overrides any MONGO_URI in .env: inside compose the database is reachable as "mongo".
@@ -28,12 +28,12 @@ services:
       timeout: 5s
       retries: 10
 
-  web:
-    build: ./web
+  frontend:
+    build: ./frontend
     ports:
       - "3000:80"
     depends_on:
-      - server
+      - backend
 
 volumes:
   mongo-data:
