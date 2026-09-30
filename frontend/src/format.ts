@@ -25,7 +25,9 @@ export function timeAgo(iso: string, now: Date = new Date()): string {
   const hours = Math.floor(minutes / 60)
   if (hours < 24) return `${hours} h ago`
   const days = Math.floor(hours / 24)
-  return days < 30 ? `${days} d ago` : new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  return days < 30
+    ? `${days} d ago`
+    : new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
 /** The summary is Markdown for GitHub; show it without the markup characters. */
@@ -38,7 +40,11 @@ export function plainMarkdown(text: string): string {
 
 /** "2026-03-10" -> "Mar 10". Parsed as UTC so the label never shifts a day. */
 export function shortDate(isoDay: string): string {
-  return new Date(`${isoDay}T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
+  return new Date(`${isoDay}T00:00:00Z`).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  })
 }
 
 /** Rounds a chart maximum up to a clean number so the axis ticks read 0 / 5 / 10, not 0 / 3.5 / 7. */

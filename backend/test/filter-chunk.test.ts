@@ -65,7 +65,9 @@ describe('chunkFiles', () => {
 
   it('truncates absurdly long lines', () => {
     const [file] = parseDiff(
-      ['diff --git a/x.js b/x.js', '--- a/x.js', '+++ b/x.js', '@@ -1,1 +1,1 @@', `+${'x'.repeat(5000)}`, ''].join('\n'),
+      ['diff --git a/x.js b/x.js', '--- a/x.js', '+++ b/x.js', '@@ -1,1 +1,1 @@', `+${'x'.repeat(5000)}`, ''].join(
+        '\n',
+      ),
     )
     const { chunks } = chunkFiles([file!], 30_000, 300_000)
     expect(chunks[0]!.chars).toBeLessThan(1500)

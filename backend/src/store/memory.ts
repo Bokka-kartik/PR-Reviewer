@@ -38,7 +38,8 @@ export class MemoryReviewStore implements ReviewStore {
       ...meta,
     }
     if (existing) {
-      const stale = existing.status === 'running' && this.now().getTime() - existing.startedAt.getTime() > STALE_RUNNING_MS
+      const stale =
+        existing.status === 'running' && this.now().getTime() - existing.startedAt.getTime() > STALE_RUNNING_MS
       if (existing.status === 'completed' || (existing.status === 'running' && !stale)) return null
       Object.assign(existing, fresh)
       return { ...existing }
@@ -67,7 +68,10 @@ export class MemoryReviewStore implements ReviewStore {
     const matching = this.sorted().filter(
       (r) => (!query.repo || `${r.owner}/${r.repo}` === query.repo) && (!query.status || r.status === query.status),
     )
-    return { items: matching.slice(query.skip, query.skip + query.limit).map((r) => ({ ...r })), total: matching.length }
+    return {
+      items: matching.slice(query.skip, query.skip + query.limit).map((r) => ({ ...r })),
+      total: matching.length,
+    }
   }
 
   async get(id: string): Promise<ReviewRecord | null> {
@@ -76,7 +80,9 @@ export class MemoryReviewStore implements ReviewStore {
   }
 
   async recent(limit: number): Promise<ReviewRecord[]> {
-    return this.sorted().slice(0, limit).map((r) => ({ ...r }))
+    return this.sorted()
+      .slice(0, limit)
+      .map((r) => ({ ...r }))
   }
 
   private sorted(): ReviewRecord[] {

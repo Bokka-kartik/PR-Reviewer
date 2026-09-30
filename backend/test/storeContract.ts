@@ -5,7 +5,11 @@ import type { ReviewStore } from '../src/store/types.js'
 const meta = { prTitle: 'Title', prUrl: 'https://example.test/pr/1', author: 'kartik' }
 
 /** Behaviour every ReviewStore must have, run against the in-memory and MongoDB stores. */
-export function storeContract(name: string, makeStore: () => ReviewStore | Promise<ReviewStore>, options: { skip?: boolean } = {}) {
+export function storeContract(
+  name: string,
+  makeStore: () => ReviewStore | Promise<ReviewStore>,
+  options: { skip?: boolean } = {},
+) {
   describe.skipIf(options.skip)(`${name} store contract`, () => {
     // Fresh owner per test, so tests never see each other's rows in a shared database.
     const key = (headSha = 'sha-1', owner = `owner-${randomUUID()}`) => ({ owner, repo: 'r', prNumber: 1, headSha })
@@ -75,7 +79,9 @@ export function storeContract(name: string, makeStore: () => ReviewStore | Promi
       expect(all.total).toBe(2)
       expect(all.items.map((r) => r.id)).toEqual([b.id, a.id])
 
-      expect((await store.list({ repo: `${owner}/r`, status: 'failed', limit: 10, skip: 0 })).items.map((r) => r.id)).toEqual([b.id])
+      expect(
+        (await store.list({ repo: `${owner}/r`, status: 'failed', limit: 10, skip: 0 })).items.map((r) => r.id),
+      ).toEqual([b.id])
       expect((await store.list({ repo: `${owner}/r`, limit: 1, skip: 1 })).items.map((r) => r.id)).toEqual([a.id])
 
       expect((await store.get(a.id))!.status).toBe('completed')

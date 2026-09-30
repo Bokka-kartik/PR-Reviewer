@@ -54,7 +54,9 @@ export function DailyChart({ days }: { days: Day[] }) {
       <div className="card-head">
         <div>
           <h2>Reviews per day</h2>
-          <p className="muted">Last {days.length} days · {total} total</p>
+          <p className="muted">
+            Last {days.length} days · {total} total
+          </p>
         </div>
         <button type="button" className="link-btn" onClick={() => setAsTable((v) => !v)}>
           {asTable ? 'Show chart' : 'Show as table'}
@@ -82,10 +84,21 @@ export function DailyChart({ days }: { days: Day[] }) {
         </table>
       ) : (
         <div className="chart" ref={ref} onMouseLeave={() => setHover(null)}>
-          <svg width={width} height={HEIGHT} role="img" aria-label={`Bar chart of reviews per day, ${total} in total over ${days.length} days. A table view is available.`}>
+          <svg
+            width={width}
+            height={HEIGHT}
+            role="img"
+            aria-label={`Bar chart of reviews per day, ${total} in total over ${days.length} days. A table view is available.`}
+          >
             {ticks(max).map((t) => (
               <g key={t}>
-                <line x1={MARGIN.left} x2={width - MARGIN.right} y1={y(t)} y2={y(t)} className={t === 0 ? 'axis' : 'grid'} />
+                <line
+                  x1={MARGIN.left}
+                  x2={width - MARGIN.right}
+                  y1={y(t)}
+                  y2={y(t)}
+                  className={t === 0 ? 'axis' : 'grid'}
+                />
                 <text x={MARGIN.left - 8} y={y(t)} dy="0.32em" textAnchor="end" className="tick">
                   {t}
                 </text>
@@ -98,7 +111,10 @@ export function DailyChart({ days }: { days: Day[] }) {
               return (
                 <g key={d.date}>
                   {d.reviews > 0 && (
-                    <path d={columnPath(cx - barW / 2, y(d.reviews), barW, h)} className={hover === i ? 'bar bar-active' : 'bar'} />
+                    <path
+                      d={columnPath(cx - barW / 2, y(d.reviews), barW, h)}
+                      className={hover === i ? 'bar bar-active' : 'bar'}
+                    />
                   )}
                   {i % labelEvery === 0 && (
                     <text x={cx} y={HEIGHT - 8} textAnchor="middle" className="tick">

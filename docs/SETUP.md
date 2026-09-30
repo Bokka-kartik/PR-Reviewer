@@ -63,10 +63,12 @@ docker compose up --build
 Without Docker:
 
 ```bash
+npm run install:all        # root tooling + backend + frontend, and sets up the git hooks
+
 # terminal 1 (needs a MongoDB on localhost:27017)
-cd backend && npm install && npm run dev
+npm run dev:backend
 # terminal 2
-cd frontend && npm install && npm run dev      # http://localhost:5173
+npm run dev:frontend       # http://localhost:5173
 ```
 
 `npm run dev` loads the same `.env` file from the project root, and uses `MONGO_URI` from it, so set it to

@@ -15,7 +15,9 @@ export function Overview({ onUnauthorized }: { onUnauthorized: () => void }) {
     return (
       <div className="card empty">
         <h2>No reviews yet</h2>
-        <p className="muted">Open a pull request on a repository where the GitHub App is installed. Reviews appear here within a minute.</p>
+        <p className="muted">
+          Open a pull request on a repository where the GitHub App is installed. Reviews appear here within a minute.
+        </p>
       </div>
     )
   }
@@ -25,10 +27,20 @@ export function Overview({ onUnauthorized }: { onUnauthorized: () => void }) {
     <>
       <div className="tiles">
         <StatTile label="Reviews" value={compact(totals.reviews)} hint={`${totals.completed} completed`} />
-        <StatTile label="Comments posted" value={compact(totals.commentsPosted)} hint={`across ${compact(totals.filesReviewed)} files`} />
+        <StatTile
+          label="Comments posted"
+          value={compact(totals.commentsPosted)}
+          hint={`across ${compact(totals.filesReviewed)} files`}
+        />
         <StatTile label="Average review time" value={formatDuration(totals.avgDurationMs)} hint="completed reviews" />
-        <StatTile label="Model tokens" value={compact(tokens)} hint={`${compact(totals.inputTokens)} in · ${compact(totals.outputTokens)} out`} />
-        {totals.failed > 0 && <StatTile label="Failed reviews" value={String(totals.failed)} hint="see the Reviews tab" />}
+        <StatTile
+          label="Model tokens"
+          value={compact(tokens)}
+          hint={`${compact(totals.inputTokens)} in · ${compact(totals.outputTokens)} out`}
+        />
+        {totals.failed > 0 && (
+          <StatTile label="Failed reviews" value={String(totals.failed)} hint="see the Reviews tab" />
+        )}
       </div>
 
       <DailyChart days={stats.byDay} />
@@ -49,7 +61,11 @@ export function Overview({ onUnauthorized }: { onUnauthorized: () => void }) {
           <h2>Busiest repositories</h2>
           <BarList
             empty="No repositories yet."
-            rows={stats.byRepo.map((r) => ({ label: r.repo, value: r.reviews, hint: r.reviews === 1 ? 'review' : 'reviews' }))}
+            rows={stats.byRepo.map((r) => ({
+              label: r.repo,
+              value: r.reviews,
+              hint: r.reviews === 1 ? 'review' : 'reviews',
+            }))}
           />
         </div>
       </div>

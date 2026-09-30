@@ -89,7 +89,17 @@ describe('parseDiff', () => {
   })
 
   it('treats an empty line inside a hunk as a context line whose space was stripped', () => {
-    const diff = ['diff --git a/x.ts b/x.ts', '--- a/x.ts', '+++ b/x.ts', '@@ -1,3 +1,4 @@', ' a', '', '+b', ' c', ''].join('\n')
+    const diff = [
+      'diff --git a/x.ts b/x.ts',
+      '--- a/x.ts',
+      '+++ b/x.ts',
+      '@@ -1,3 +1,4 @@',
+      ' a',
+      '',
+      '+b',
+      ' c',
+      '',
+    ].join('\n')
     const [file] = parseDiff(diff)
     expect(file!.hunks[0]!.lines.map((l) => [l.type, l.newLine])).toEqual([
       ['ctx', 1],

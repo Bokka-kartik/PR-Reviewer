@@ -1,14 +1,43 @@
 {
   "name": "pr-reviewer",
   "private": true,
-  "description": "Convenience scripts for the backend/ and frontend/ packages. No dependencies live here.",
+  "description": "Repo-level tooling (lint, format, git hooks) and shortcuts for the backend/ and frontend/ packages.",
+  "engines": {
+    "node": ">=22.13"
+  },
   "scripts": {
-    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "prepare": "husky",
+    "install:all": "npm install && npm --prefix backend install && npm --prefix frontend install",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "npm --prefix backend test && npm --prefix frontend test",
-    "typecheck": "npm --prefix backend run typecheck",
+    "test:coverage": "npm --prefix backend run test:coverage && npm --prefix frontend run test:coverage",
+    "typecheck": "npm --prefix backend run typecheck && npm --prefix frontend run typecheck",
     "build": "npm --prefix backend run build && npm --prefix frontend run build",
     "clean": "node -e \"for (const d of ['backend/node_modules','backend/dist','frontend/node_modules','frontend/dist']) require('fs').rmSync(d, { recursive: true, force: true })\""
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,yml,yaml,css,html}": "prettier --write"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.11.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.12.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9",
+    "typescript-eslint": "^8.71.0"
   }
 }

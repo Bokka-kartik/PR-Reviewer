@@ -3,7 +3,8 @@ import type { LlmReviewInput, LlmReviewOutput, LlmReviewer } from './types.js'
 
 const SUBMIT_REVIEW_TOOL = {
   name: 'submit_review',
-  description: 'Submit the review findings for this part of the diff. Use an empty list when there is nothing to report.',
+  description:
+    'Submit the review findings for this part of the diff. Use an empty list when there is nothing to report.',
   input_schema: {
     type: 'object' as const,
     properties: {

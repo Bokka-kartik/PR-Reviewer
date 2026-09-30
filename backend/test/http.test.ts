@@ -184,7 +184,10 @@ describe('dashboard API', () => {
     expect((await request(app).get('/api/reviews?status=failed').set(auth)).body.total).toBe(0)
     expect((await request(app).get('/api/reviews?repo=acme/widgets').set(auth)).body.total).toBe(1)
     expect((await request(app).get('/api/reviews?repo=acme/other').set(auth)).body.total).toBe(0)
-    expect((await request(app).get('/api/reviews?limit=1000&page=-3').set(auth)).body).toMatchObject({ limit: 100, page: 1 })
+    expect((await request(app).get('/api/reviews?limit=1000&page=-3').set(auth)).body).toMatchObject({
+      limit: 100,
+      page: 1,
+    })
     expect((await request(app).get('/api/reviews?status=bogus').set(auth)).status).toBe(400)
   })
 

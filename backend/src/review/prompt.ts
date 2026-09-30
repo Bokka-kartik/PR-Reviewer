@@ -10,10 +10,7 @@ export interface PromptContext {
 const MAX_DESCRIPTION_CHARS = 2000
 
 export function buildPrompt(chunkText: string, ctx: PromptContext): LlmReviewInput {
-  const focus =
-    ctx.config.focus.length > 0
-      ? `\nPay particular attention to: ${ctx.config.focus.join(', ')}.`
-      : ''
+  const focus = ctx.config.focus.length > 0 ? `\nPay particular attention to: ${ctx.config.focus.join(', ')}.` : ''
   const extra = ctx.config.instructions ? `\nRepository guidance from the maintainers:\n${ctx.config.instructions}` : ''
 
   const system = `You are a senior software engineer doing a careful code review of a pull request.

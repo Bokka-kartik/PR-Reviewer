@@ -74,7 +74,14 @@ function Login({ onSuccess }: { onSuccess: () => void }) {
       <form className="card" onSubmit={submit}>
         <h1>PR Reviewer</h1>
         <p className="muted">Enter the dashboard token (the DASHBOARD_TOKEN value from the server settings).</p>
-        <input type="password" placeholder="Dashboard token" value={value} onChange={(e) => setValue(e.target.value)} autoFocus required />
+        <input
+          type="password"
+          placeholder="Dashboard token"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          autoFocus
+          required
+        />
         <button disabled={busy || !value.trim()}>{busy ? 'Checking…' : 'Sign in'}</button>
         {error && <p className="error">{error}</p>}
       </form>

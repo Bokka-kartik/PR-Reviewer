@@ -47,12 +47,7 @@ export interface WebhookDeps {
 
 export function registerHandlers(webhooks: Webhooks, deps: WebhookDeps): void {
   webhooks.on(
-    [
-      'pull_request.opened',
-      'pull_request.synchronize',
-      'pull_request.reopened',
-      'pull_request.ready_for_review',
-    ],
+    ['pull_request.opened', 'pull_request.synchronize', 'pull_request.reopened', 'pull_request.ready_for_review'],
     ({ payload }) => {
       const installationId = payload.installation?.id
       if (!installationId) {

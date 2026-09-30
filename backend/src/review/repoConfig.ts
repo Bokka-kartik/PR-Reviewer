@@ -34,7 +34,7 @@ export function parseRepoConfig(content: string | null): LoadedRepoConfig {
   let data: unknown
   try {
     data = parse(content)
-  } catch (e) {
+  } catch {
     return { config: DEFAULT_REPO_CONFIG, warning: `${CONFIG_PATH} is not valid YAML, using defaults.` }
   }
   const result = repoConfigSchema.safeParse(data ?? {})

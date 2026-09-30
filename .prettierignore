@@ -1,0 +1,6 @@
+node_modules
+dist
+coverage
+package-lock.json
+# Prose is wrapped by hand; keep Prettier out of it.
+*.md

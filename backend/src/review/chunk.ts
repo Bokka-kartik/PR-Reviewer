@@ -40,9 +40,9 @@ function renderFile(file: FileDiff, maxChars: number): string[] {
     if (hasContent && current.length + line.length + 1 > maxChars) {
       pieces.push(current)
       current = continuedHead
-      hasContent = false
     }
     current += `\n${line}`
+    // The line just added counts as content for the next check.
     hasContent = true
   }
   pieces.push(current)

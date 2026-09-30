@@ -49,7 +49,11 @@ export function Reviews({ onUnauthorized }: { onUnauthorized: () => void }) {
             ))}
           </select>
         </label>
-        {data && <span className="muted">{data.total} {data.total === 1 ? 'review' : 'reviews'}</span>}
+        {data && (
+          <span className="muted">
+            {data.total} {data.total === 1 ? 'review' : 'reviews'}
+          </span>
+        )}
       </div>
 
       {error && <p className="error">Could not load reviews: {error}</p>}

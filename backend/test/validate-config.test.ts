@@ -93,7 +93,9 @@ describe('parseRepoConfig', () => {
 
   it('reads a valid file and fills the rest with defaults', () => {
     const { config, warning } = parseRepoConfig(
-      ['ignore:', '  - "docs/**"', 'focus: [security, error handling]', 'minSeverity: warning', 'maxComments: 5'].join('\n'),
+      ['ignore:', '  - "docs/**"', 'focus: [security, error handling]', 'minSeverity: warning', 'maxComments: 5'].join(
+        '\n',
+      ),
     )
     expect(warning).toBeUndefined()
     expect(config.ignore).toEqual(['docs/**'])

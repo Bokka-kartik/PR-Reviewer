@@ -173,7 +173,9 @@ describe('reviewPullRequest', () => {
   describe('large pull requests', () => {
     it('reviews in several model calls and merges the results', async () => {
       llm = fakeLlm((input) => ({
-        comments: input.user.includes('src/new.ts') ? [finding({ path: 'src/new.ts', line: 2, body: 'b is unused' })] : [finding()],
+        comments: input.user.includes('src/new.ts')
+          ? [finding({ path: 'src/new.ts', line: 2, body: 'b is unused' })]
+          : [finding()],
         usage,
       }))
       const record = await reviewPullRequest(pr(), deps({ maxChunkChars: 250 }))

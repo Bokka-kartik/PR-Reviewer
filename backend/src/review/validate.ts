@@ -63,8 +63,7 @@ export function validateComments(
 
   // Most important first, then by position, so the limit keeps the best comments.
   accepted.sort(
-    (a, b) =>
-      SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity] || a.path.localeCompare(b.path) || a.line - b.line,
+    (a, b) => SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity] || a.path.localeCompare(b.path) || a.line - b.line,
   )
   dropped.overLimit = Math.max(0, accepted.length - config.maxComments)
   return { comments: accepted.slice(0, config.maxComments), dropped }

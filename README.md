@@ -111,12 +111,35 @@ still records the run.
 
 ## Tests
 
-`cd backend && npm test` (85 tests) covers: diff parsing (renames, new/deleted/binary files, multiple hunks, odd
+`npm test` runs both suites (`npm run test:coverage` adds a coverage report and enforces the floors).
+
+**Backend, 99 tests (~92% of statements).** Diff parsing (renames, new/deleted/binary files, multiple hunks, odd
 whitespace), file filtering, chunking, comment validation and dedupe, repo config parsing, the whole review flow with a
 fake GitHub and fake model (skips, retries, 422 fallback, partial failures, idempotency), webhook signature
-verification and the HTTP API, the Anthropic request/response handling (through the SDK with a fake `fetch`), the job
-queue, and statistics. The MongoDB store tests run when `MONGO_TEST_URI` is set (CI does this).
-`cd frontend && npm test` covers the formatting and chart-scale helpers.
+verification and the HTTP API, the Anthropic request/response handling (through the SDK with a fake `fetch`), the
+GitHub client adapter, settings loading, the job queue and statistics. The MongoDB store tests run when `MONGO_TEST_URI`
+is set (CI does this), so a local run reports lower coverage for that file.
+
+**Frontend, 36 tests (~99% of statements).** Rendered with React Testing Library against a fake API: the sign-in gate
+(wrong, right and expired tokens), overview numbers and empty/error states, the chart (bars, peak label, tooltip, table
+view), the reviews list with filters and pagination, the detail page, and the theme switch.
+
+Coverage floors live in each package's Vitest config. They sit a little below today's numbers, so they catch a real drop
+without failing on noise.
+
+## Code quality and git hooks
+
+| Tool                                         | What it does                                                  |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| ESLint (`npm run lint`)                      | Catches real bugs: unused code, hook misuse, unsafe patterns  |
+| Prettier (`npm run format` / `format:check`) | One code style, no formatting debates                         |
+| Husky + lint-staged                          | On every commit: fix and format the staged files              |
+| Husky pre-commit                             | Then typecheck and run all tests; a failure blocks the commit |
+| commitlint                                   | Commit messages must follow Conventional Commits (`feat: …`)  |
+
+Hooks install themselves with `npm install` at the repository root (`npm run install:all` does that plus both
+packages). They are a convenience, not a gate: `--no-verify` skips them, so CI runs the same lint, format, typecheck and
+test checks on every push and pull request.
 
 ## Project layout
 
@@ -125,8 +148,10 @@ backend/                Express API, webhook handler, review pipeline, MongoDB s
 frontend/               React dashboard (Overview, Reviews, Review detail)
 docs/SETUP.md           Register the GitHub App and run everything
 docker-compose.yml      mongo + backend + frontend
-.github/workflows/      CI: tests, builds, Docker image builds
-package.json            Shortcuts only: npm run install:all | test | build | dev:backend | dev:frontend | clean
+.github/workflows/      CI: lint, format, tests + coverage, builds, Docker image builds
+.husky/                 Git hooks (pre-commit, commit-msg)
+package.json            Repo tooling and shortcuts: install:all | dev:backend | dev:frontend | lint | format | test | build | clean
+eslint.config.mjs, .prettierrc.json, commitlint.config.mjs   Tooling configuration
 ```
 
 Run locally: see [docs/SETUP.md](docs/SETUP.md).

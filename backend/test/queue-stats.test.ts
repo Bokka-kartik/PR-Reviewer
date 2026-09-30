@@ -65,7 +65,13 @@ const record = (over: Partial<ReviewRecord>): ReviewRecord => ({
   ...over,
 })
 
-const c = (severity: 'critical' | 'warning' | 'suggestion') => ({ path: 'a', line: 1, severity, body: severity, fingerprint: severity })
+const c = (severity: 'critical' | 'warning' | 'suggestion') => ({
+  path: 'a',
+  line: 1,
+  severity,
+  body: severity,
+  fingerprint: severity,
+})
 
 describe('computeStats', () => {
   const now = new Date('2026-03-10T18:00:00Z')
