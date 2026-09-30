@@ -1,0 +1,13 @@
+# Store text with LF in the repository, whatever the OS. Stops Windows CRLF from
+# showing whole files as changed.
+* text=auto eol=lf
+
+# Windows scripts really do need CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Never touched or diffed as text.
+*.png binary
+*.jpg binary
+*.ico binary
+package-lock.json -diff

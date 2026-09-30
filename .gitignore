@@ -1,0 +1,32 @@
+# Dependencies (matches at any depth: server/, web/, ...)
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+.vite/
+
+# Secrets and local configuration. Only .env.example is committed.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and temporary files
+*.log
+npm-debug.log*
+.tmp/
+*.tmp
+*.tmp.ts
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini
