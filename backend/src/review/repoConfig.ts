@@ -14,6 +14,10 @@ const repoConfigSchema = z.object({
   minSeverity: z.enum(['suggestion', 'warning', 'critical']).default('suggestion'),
   maxComments: z.number().int().min(1).max(50).default(15),
   reviewDrafts: z.boolean().default(false),
+  /** Optional list of allowed authors for this repo. If non-empty, others are skipped. */
+  allowedAuthors: z.array(z.string()).default([]),
+  /** Optional label required on PR to trigger a review (e.g. "ai-review"). */
+  triggerLabel: z.string().optional(),
 })
 
 export type RepoConfig = z.infer<typeof repoConfigSchema>
