@@ -8,6 +8,9 @@ the exact lines. A dashboard shows every review, its comments, cost in tokens, a
 
 Setup for a real GitHub App: [SETUP.md](docs/SETUP.md).
 
+New here? Follow the [setup walkthrough](docs/SETUP.md), which covers demo mode, GitHub App setup, cost controls,
+and the first review.
+
 ## See it in 2 minutes (no accounts needed)
 
 Demo mode runs the real backend with fake reviews, so you can explore the dashboard without a GitHub App, an Anthropic
@@ -81,6 +84,31 @@ reviewDrafts: false
 
 A broken file never blocks a review: defaults are used and the problem is mentioned in the review summary.
 Adding the label `no-ai-review` to a pull request skips it. Pull requests from bots are skipped.
+
+## Control which pull requests use Claude
+
+By default, any non-bot pull request in an installed repository can trigger a review. For a personal installation,
+restrict reviews by setting `ALLOWED_AUTHORS` in `.env` to your GitHub username (or a comma-separated list of
+usernames). For example:
+
+```dotenv
+ALLOWED_AUTHORS=your-github-username
+```
+
+Usernames are matched without regard to capitalization. A pull request from anyone outside the list is recorded as
+skipped before repository files or the diff are fetched, and Claude is not called. Leave this variable empty to allow
+all authors.
+
+You can also require a label:
+
+```dotenv
+REQUIRE_LABEL=trigger-review
+```
+
+Only pull requests carrying that label are reviewed. Adding the label triggers a review; later pushes trigger another
+review while the label remains. Label permission depends on your repository's GitHub settings and roles, so use the
+author allowlist as an additional restriction when only selected contributors should incur model usage. Both settings
+can be enabled together.
 
 ## Design decisions and trade-offs
 

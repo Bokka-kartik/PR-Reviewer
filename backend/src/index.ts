@@ -32,9 +32,12 @@ async function main() {
       store,
       log,
       maxDiffChars: config.MAX_DIFF_CHARS,
+      allowedAuthors: config.ALLOWED_AUTHORS,
+      requireLabel: config.REQUIRE_LABEL,
     },
     queue,
     log,
+    requireLabel: config.REQUIRE_LABEL,
   })
 
   const app = createApp({ webhooks, store, dashboardToken: config.DASHBOARD_TOKEN, log })

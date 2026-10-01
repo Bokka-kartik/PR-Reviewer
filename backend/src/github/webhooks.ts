@@ -43,23 +43,36 @@ export interface WebhookDeps {
   review: Omit<ReviewDeps, 'github'>
   queue: JobQueue
   log: Logger
+  /** When set, adding this label to a PR also starts a review. */
+  requireLabel?: string
 }
 
 export function registerHandlers(webhooks: Webhooks, deps: WebhookDeps): void {
+  const enqueueReview = (payload: PullRequestPayload) => {
+    const installationId = payload.installation?.id
+    if (!installationId) {
+      deps.log.warn('pull_request event without installation id, ignoring')
+      return
+    }
+    const pr = toPullRequestRef(payload)
+    // Answer GitHub immediately; the review runs in the background.
+    deps.queue.add(`${pr.owner}/${pr.repo}#${pr.number}`, async () => {
+      const github = await deps.getGitHub(installationId)
+      await reviewPullRequest(pr, { ...deps.review, github })
+    })
+  }
+
   webhooks.on(
     ['pull_request.opened', 'pull_request.synchronize', 'pull_request.reopened', 'pull_request.ready_for_review'],
     ({ payload }) => {
-      const installationId = payload.installation?.id
-      if (!installationId) {
-        deps.log.warn('pull_request event without installation id, ignoring')
-        return
-      }
-      const pr = toPullRequestRef(payload as unknown as PullRequestPayload)
-      // Answer GitHub immediately; the review runs in the background.
-      deps.queue.add(`${pr.owner}/${pr.repo}#${pr.number}`, async () => {
-        const github = await deps.getGitHub(installationId)
-        await reviewPullRequest(pr, { ...deps.review, github })
-      })
+      enqueueReview(payload as unknown as PullRequestPayload)
     },
   )
+
+  if (deps.requireLabel) {
+    webhooks.on('pull_request.labeled', ({ payload }) => {
+      const labeled = payload as unknown as PullRequestPayload & { label?: { name?: string } }
+      if (labeled.label?.name?.toLowerCase() === deps.requireLabel!.toLowerCase()) enqueueReview(labeled)
+    })
+  }
 }

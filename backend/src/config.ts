@@ -15,6 +15,20 @@ const schema = z.object({
   MAX_DIFF_CHARS: z.coerce.number().int().positive().default(300_000),
   // How many PRs are reviewed at the same time.
   REVIEW_CONCURRENCY: z.coerce.number().int().positive().default(2),
+  // Optional comma-separated list of GitHub usernames permitted for AI review.
+  ALLOWED_AUTHORS: z
+    .string()
+    .default('')
+    .transform((val) =>
+      val
+        ? val
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [],
+    ),
+  // Optional label that must be present on a PR to trigger a review (e.g. "ai-review").
+  REQUIRE_LABEL: z.string().optional(),
 })
 
 export type Config = z.infer<typeof schema> & { privateKeyPem: string }

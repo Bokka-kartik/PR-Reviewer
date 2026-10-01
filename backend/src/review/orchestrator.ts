@@ -34,6 +34,10 @@ export interface ReviewDeps {
   maxChunkChars?: number
   /** Model calls in flight at once for one PR. */
   chunkConcurrency?: number
+  /** Empty means any non-bot author is allowed. GitHub usernames are case-insensitive. */
+  allowedAuthors?: string[]
+  /** When set, the pull request must carry this label before model calls are made. */
+  requireLabel?: string
 }
 
 export const SKIP_LABEL = 'no-ai-review'
@@ -69,7 +73,12 @@ export async function reviewPullRequest(pr: PullRequestRef, deps: ReviewDeps): P
       return finish({ status: 'skipped', skipReason: reason })
     }
 
+    const allowedAuthors = deps.allowedAuthors?.map((author) => author.toLowerCase()) ?? []
+    if (allowedAuthors.length > 0 && !allowedAuthors.includes(pr.author.toLowerCase()))
+      return await skip(`author ${pr.author} is not authorized for AI review`)
     if (pr.authorIsBot) return await skip('pull request is from a bot')
+    if (deps.requireLabel && !pr.labels.some((label) => label.toLowerCase() === deps.requireLabel!.toLowerCase()))
+      return await skip(`missing required label ${deps.requireLabel}`)
     if (pr.labels.includes(SKIP_LABEL)) return await skip(`labelled ${SKIP_LABEL}`)
 
     const configText = await deps.github.getFile(pr.owner, pr.repo, CONFIG_PATH, pr.headSha)
