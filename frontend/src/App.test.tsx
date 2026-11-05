@@ -69,6 +69,15 @@ describe('sign-in', () => {
 describe('overview', () => {
   const signedIn = () => sessionStorage.setItem('pr-reviewer.token', TOKEN)
 
+  it('falls back to the overview for a malformed encoded review ID', async () => {
+    signedIn()
+    window.location.hash = '#/reviews/%E0%A4%A'
+    authedApi()
+    render(<App />)
+
+    expect(await screen.findByRole('heading', { name: 'Reviews per day' })).toBeInTheDocument()
+  })
+
   it('shows the headline numbers and breakdowns', async () => {
     signedIn()
     authedApi()

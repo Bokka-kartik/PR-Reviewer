@@ -9,7 +9,13 @@ type Route = { name: 'overview' } | { name: 'reviews' } | { name: 'detail'; id: 
 function parseRoute(hash: string): Route {
   const path = hash.replace(/^#/, '')
   const detail = /^\/reviews\/([^/]+)$/.exec(path)
-  if (detail) return { name: 'detail', id: decodeURIComponent(detail[1]!) }
+  if (detail) {
+    try {
+      return { name: 'detail', id: decodeURIComponent(detail[1]!) }
+    } catch {
+      return { name: 'overview' }
+    }
+  }
   if (path === '/reviews') return { name: 'reviews' }
   return { name: 'overview' }
 }
